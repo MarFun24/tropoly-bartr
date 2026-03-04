@@ -397,7 +397,7 @@ function protoPlay(pi){
     step++;
     if(step>=projects[pi].proto.length){clearInterval(protoTimers[pi]);protoTimers[pi]=null;return}
     protoSet(pi,step);
-  },1500);
+  },2500);
 }
 
 document.addEventListener('click',e=>{
