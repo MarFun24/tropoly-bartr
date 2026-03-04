@@ -39,7 +39,7 @@ nav button.cta-btn:hover{background:var(--tlL)}
 .wcard .arrow{color:var(--tl);font-size:18px;transition:transform 0.3s ease;margin-left:16px;flex-shrink:0}
 .wcard.open .arrow{transform:rotate(180deg)}
 .wcard .body{max-height:0;opacity:0;overflow:hidden;transition:max-height 0.6s ease,opacity 0.4s ease 0.1s}
-.wcard.open .body{max-height:1400px;opacity:1}
+.wcard.open .body{max-height:2200px;opacity:1}
 .topics{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;margin-bottom:24px}
 .takeaway{background:var(--tlG);border-left:3px solid var(--tl);border-radius:0 10px 10px 0;padding:14px 18px}
 .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:36px}
@@ -74,6 +74,28 @@ nav button.cta-btn:hover{background:var(--tlL)}
 .sec-light .takeaway span{color:var(--tl) !important}
 .sec-light .wcard .body>p{color:#334155 !important}
 .sec-light .wcard .body div:not(.topics):not(.takeaway) span:not(.dot){color:#334155 !important}
+.proto{background:#f8fafb;border:1px solid #e2e8f0;border-radius:14px;padding:24px;margin:20px 0 26px;cursor:default}
+.proto-label{font-family:'DM Mono',monospace;font-size:10px;color:#0f7a6e;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:16px}
+.proto-steps{display:flex;align-items:flex-start;gap:0;position:relative}
+.proto-step{flex:1;text-align:center;position:relative;cursor:pointer;padding:0 4px}
+.proto-node{width:36px;height:36px;border-radius:50%;background:#e2e8f0;border:2px solid #cbd5e1;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;transition:all 0.3s ease;font-size:14px}
+.proto-step.active .proto-node{background:var(--tl);border-color:var(--tl);transform:scale(1.15);box-shadow:0 0 0 4px rgba(26,158,143,0.15)}
+.proto-step.done .proto-node{background:var(--tlL);border-color:var(--tlL)}
+.proto-step-label{font-size:11px;font-weight:500;color:#64748b;line-height:1.3;transition:color 0.3s}
+.proto-step.active .proto-step-label{color:#1a1a2e;font-weight:600}
+.proto-step.done .proto-step-label{color:var(--tl)}
+.proto-line{position:absolute;top:18px;left:calc(50% + 22px);right:calc(-50% + 22px);height:2px;background:#e2e8f0;z-index:0}
+.proto-step.done .proto-line{background:var(--tlL)}
+.proto-step:last-child .proto-line{display:none}
+.proto-detail{margin-top:18px;padding:14px 16px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;min-height:56px;transition:all 0.3s ease}
+.proto-detail-title{font-family:'Sora',sans-serif;font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:4px}
+.proto-detail-desc{font-size:12.5px;color:#475569;line-height:1.55}
+.proto-nav{display:flex;justify-content:center;gap:8px;margin-top:14px}
+.proto-nav button{background:#e2e8f0;border:none;border-radius:8px;padding:6px 16px;font-family:'Inter',sans-serif;font-size:12px;font-weight:500;color:#475569;cursor:pointer;transition:all 0.2s}
+.proto-nav button:hover{background:#cbd5e1}
+.proto-nav button.proto-play{background:var(--tl);color:#fff}
+.proto-nav button.proto-play:hover{background:var(--tlL)}
+@media(max-width:768px){.proto-steps{flex-wrap:wrap;gap:8px}.proto-step{flex:none;width:calc(33.33% - 6px)}.proto-line{display:none}}
 .sec-light .note-box{background:#e8f0ef;border-color:rgba(26,158,143,0.25)}
 .sec-light .note-box p{color:#334155 !important}
 @media(max-width:768px){
@@ -274,12 +296,27 @@ const projects=[
    d:"BARTR currently has no automated follow-up for users who browse but do not transact. This is a significant missed opportunity. A well-designed behavioural communication system will re-engage inactive users, surface relevant items based on browsing activity, and build the kind of regular touchpoints that turn occasional visitors into active ones. Monthly active users matter more than total downloads. This is what moves that number.",
    tp:["Behavioural trigger mapping across key user actions: browse, click, save, abandon","Email sequence architecture: browse abandonment, re-engagement, and new listing alerts","Push notification strategy and copy for in-app engagement moments","Personalization framework based on browsing history and transaction behaviour","Monthly active user (MAU) and engagement KPI framework","Technical implementation brief for your development team"],
    need:["Overview of your current tech stack and notification infrastructure","Summary of user data currently captured (browsing, clicks, saves, purchases)","Any existing email templates or brand communication guidelines"],
-   tk:"A complete engagement automation playbook: trigger map, sequence architecture, copy, personalization logic, and a developer-ready implementation brief."},
+   tk:"A complete engagement automation playbook: trigger map, sequence architecture, copy, personalization logic, and a developer-ready implementation brief.",
+   proto:[
+     {icon:"👤",label:"User browses",title:"User browses items",desc:"A user opens the app, views several listings, and saves a few items to their watchlist."},
+     {icon:"👋",label:"Leaves app",title:"User leaves without transacting",desc:"The session ends with no offer or message sent. The system logs browsing activity and saved items."},
+     {icon:"⚡",label:"Trigger fires",title:"Behavioral trigger activates",desc:"After a defined window (e.g. 24 hours), the automation detects the drop-off and fires the appropriate sequence."},
+     {icon:"📧",label:"Email sent",title:"Personalized email delivered",desc:"A targeted email surfaces the items they viewed, similar new listings, and a clear call to action to return."},
+     {icon:"🔔",label:"Push notification",title:"In-app push follows up",desc:"A push notification reinforces the email, highlighting a new match or price change on a saved item."},
+     {icon:"🔄",label:"User returns",title:"User re-engages",desc:"The user returns to the app, picks up where they left off, and initiates a trade. The loop repeats."}
+   ]},
   {n:"02",t:"Transaction Experience Design",s:"Guide buyers and sellers through every stage of a trade, with clarity, not confusion",
    d:"The absence of in-app chat creates a communication gap that frustrates both buyers and sellers. Without clear guidance at each stage of a trade, users are left uncertain about what happens next, and uncertain users disengage. A step-by-step experience design addresses this directly, replacing ambiguity with sequential progress that mirrors the way Uber guides users through a ride. The goal is to remove confusion from the transaction entirely, so neither party needs to wonder what comes next.",
    tp:["Full buyer and seller journey mapping across all trade stages","Step-by-step communication flow: what to say, when, and through which channel","Sequential UI concept for in-product transaction guidance","Email and notification copy for each transaction milestone","Edge case handling: disputes, no-shows, item condition discrepancies","UX specification document for your development team"],
    need:["Walkthrough of the current buyer and seller experience (screen recording or live demo works fine)","List of the most common user complaints or support issues related to transactions","Access to any existing transaction flow or state documentation"],
-   tk:"A complete transaction experience specification: journey maps, communication flows, UI concepts, copy, and a developer-ready UX document."}
+   tk:"A complete transaction experience specification: journey maps, communication flows, UI concepts, copy, and a developer-ready UX document.",
+   proto:[
+     {icon:"📝",label:"Offer sent",title:"Buyer sends an offer",desc:"The buyer selects an item and submits an offer. Both parties receive confirmation and clear next steps."},
+     {icon:"✅",label:"Accepted",title:"Seller accepts the offer",desc:"The seller reviews and accepts. The system immediately prompts both users to coordinate the exchange."},
+     {icon:"📍",label:"Meetup set",title:"Exchange details confirmed",desc:"Both parties agree on a time, location, and method. The app guides this with suggested options and reminders."},
+     {icon:"🤝",label:"Exchange",title:"Item exchanged",desc:"Both users confirm the handoff. The system captures confirmation from each side before closing the transaction."},
+     {icon:"⭐",label:"Complete",title:"Transaction complete",desc:"The trade is finalized. Both users are prompted to rate the experience, building trust for future transactions."}
+   ]}
 ];
 
 const secs=["hero","overview","scope","pricing","phase2","next","contact"];
@@ -308,6 +345,12 @@ projects.forEach((p,i)=>{
         <p style="font-size:14px;color:var(--mg);margin:6px 0 0;font-style:italic">${p.s}</p>
         <div class="body">
           <p style="font-size:15px;color:var(--sw);line-height:1.75;margin:20px 0 22px">${p.d}</p>
+          <div class="proto" data-proto="${i}" onclick="event.stopPropagation()">
+            <div class="proto-label">Interactive Preview</div>
+            <div class="proto-steps">${p.proto.map((s,si)=>`<div class="proto-step${si===0?' active':''}" data-si="${si}"><div class="proto-line"></div><div class="proto-node">${s.icon}</div><div class="proto-step-label">${s.label}</div></div>`).join("")}</div>
+            <div class="proto-detail"><div class="proto-detail-title">${p.proto[0].title}</div><div class="proto-detail-desc">${p.proto[0].desc}</div></div>
+            <div class="proto-nav"><button onclick="protoNav(${i},-1)">&larr; Back</button><button class="proto-play" onclick="protoPlay(${i})">&#9654; Play All</button><button onclick="protoNav(${i},1)">Next &rarr;</button></div>
+          </div>
           <p style="font-family:'DM Mono',monospace;font-size:11px;color:var(--tl);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px">Deliverables</p>
           <div class="topics" style="margin-bottom:22px">${p.tp.map(t=>`<div style="display:flex;align-items:flex-start;gap:10px"><span class="dot">&#9679;</span><span style="font-size:13.5px;color:var(--ow);line-height:1.55">${t}</span></div>`).join("")}</div>
           <p style="font-family:'DM Mono',monospace;font-size:11px;color:var(--tl);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px">What We Need From You</p>
@@ -318,6 +361,54 @@ projects.forEach((p,i)=>{
     </div>`;
   card.onclick=()=>{const o=card.classList.contains("open");document.querySelectorAll(".wcard").forEach(c=>c.classList.remove("open"));if(!o)card.classList.add("open")};
   pEl.appendChild(card);
+});
+
+// Proto interactivity
+const protoState=[0,0];
+let protoTimers=[null,null];
+
+function protoSet(pi,si){
+  const proto=document.querySelectorAll('.proto')[pi];
+  if(!proto)return;
+  const steps=proto.querySelectorAll('.proto-step');
+  const data=projects[pi].proto;
+  if(si<0||si>=data.length)return;
+  protoState[pi]=si;
+  steps.forEach((s,idx)=>{
+    s.classList.remove('active','done');
+    if(idx<si)s.classList.add('done');
+    if(idx===si)s.classList.add('active');
+  });
+  const detail=proto.querySelector('.proto-detail');
+  detail.querySelector('.proto-detail-title').textContent=data[si].title;
+  detail.querySelector('.proto-detail-desc').textContent=data[si].desc;
+}
+
+function protoNav(pi,dir){
+  if(protoTimers[pi]){clearInterval(protoTimers[pi]);protoTimers[pi]=null}
+  protoSet(pi,protoState[pi]+dir);
+}
+
+function protoPlay(pi){
+  if(protoTimers[pi]){clearInterval(protoTimers[pi]);protoTimers[pi]=null;return}
+  protoSet(pi,0);
+  let step=0;
+  protoTimers[pi]=setInterval(()=>{
+    step++;
+    if(step>=projects[pi].proto.length){clearInterval(protoTimers[pi]);protoTimers[pi]=null;return}
+    protoSet(pi,step);
+  },1500);
+}
+
+document.addEventListener('click',e=>{
+  const step=e.target.closest('.proto-step');
+  if(step){
+    const proto=step.closest('.proto');
+    const pi=parseInt(proto.dataset.proto);
+    const si=parseInt(step.dataset.si);
+    if(protoTimers[pi]){clearInterval(protoTimers[pi]);protoTimers[pi]=null}
+    protoSet(pi,si);
+  }
 });
 
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add("vis")})},{threshold:0.1});
